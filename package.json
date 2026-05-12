@@ -1,0 +1,36 @@
+{
+  "name": "football-dss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test tests/integration/*.test.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:migrate": "sequelize-cli db:migrate --migrations-path database/migrations",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo --migrations-path database/migrations",
+    "db:migrate:status": "sequelize-cli db:migrate:status --migrations-path database/migrations",
+    "etl:warehouse": "node scripts/etl/refresh-warehouse.js",
+    "mart:refresh": "node scripts/mart/refresh-mart.js",
+    "pipeline:refresh": "node scripts/pipeline/refresh-all.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "csv-parser": "^3.2.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.20.0",
+    "pino": "^10.3.1",
+    "sequelize": "^6.37.8",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
+  }
+}
