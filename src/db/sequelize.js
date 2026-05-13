@@ -6,6 +6,14 @@ const sequelize = new Sequelize(env.dbName, env.dbUser, env.dbPassword, {
   port: env.dbPort,
   dialect: "postgres",
   logging: false,
+  dialectOptions: env.dbSsl
+    ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: env.dbSslRejectUnauthorized,
+        },
+      }
+    : undefined,
 });
 
 export default sequelize;

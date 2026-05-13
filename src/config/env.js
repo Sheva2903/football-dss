@@ -11,6 +11,24 @@ const envSchema = z.object({
   DB_NAME: z.string().min(1),
   DB_USER: z.string().min(1),
   DB_PASSWORD: z.string(),
+  DB_SSL: z
+    .preprocess((value) => {
+      if (typeof value === "string") {
+        return value === "true";
+      }
+
+      return value;
+    }, z.boolean())
+    .default(false),
+  DB_SSL_REJECT_UNAUTHORIZED: z
+    .preprocess((value) => {
+      if (typeof value === "string") {
+        return value === "true";
+      }
+
+      return value;
+    }, z.boolean())
+    .default(true),
   CSV_DIR: z.string().min(1).default("data/source"),
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]).default("info"),
 });
@@ -31,6 +49,8 @@ const env = {
   dbName: parsedEnv.data.DB_NAME,
   dbUser: parsedEnv.data.DB_USER,
   dbPassword: parsedEnv.data.DB_PASSWORD,
+  dbSsl: parsedEnv.data.DB_SSL,
+  dbSslRejectUnauthorized: parsedEnv.data.DB_SSL_REJECT_UNAUTHORIZED,
   csvDir: parsedEnv.data.CSV_DIR,
   logLevel: parsedEnv.data.LOG_LEVEL,
 };

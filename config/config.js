@@ -7,6 +7,14 @@ const sharedConfig = {
   host: env.dbHost,
   port: env.dbPort,
   dialect: "postgres",
+  dialectOptions: env.dbSsl
+    ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: env.dbSslRejectUnauthorized,
+        },
+      }
+    : undefined,
   migrationStorage: "sequelize",
   migrationStorageTableName: "sequelize_meta",
   seederStorage: "sequelize",

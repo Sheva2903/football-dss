@@ -15,7 +15,7 @@ const REQUIRED_FILES = [
   "competitions.csv",
 ];
 
-const INSERT_BATCH_SIZE = 5000;
+const INSERT_BATCH_SIZE = 20000;
 
 function normalizeText(value) {
   if (value === undefined || value === null) {
