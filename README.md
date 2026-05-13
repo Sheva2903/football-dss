@@ -2,7 +2,7 @@
 
 Express + Postgres backend for a football DSS.
 
-Reference DSS: [dw-football-dss](https://github.com/Sheva2903/dw-football-dss) — legacy domain/logic reference only; this backend is self-contained.
+Original DSS: [dw-football-dss](https://github.com/Sheva2903/dw-football-dss) — legacy domain/logic reference.
 
 ## Requirements
 
@@ -71,10 +71,3 @@ Reference DSS: [dw-football-dss](https://github.com/Sheva2903/dw-football-dss) �
 - `GET /api/v1/shortlists`
 - `GET /api/v1/players/:id/score-explanation`
 - `GET /api/v1/players/:id/similar-alternatives`
-
-## Notes
-
-- The backend is read-heavy.
-- Scores and rankings come from the mart.
-- Evidence window and reliability level are user-selectable with defaults.
-- CSV inputs stay local in `data/source/` and should not be committed.
