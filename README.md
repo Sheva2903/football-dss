@@ -1,64 +1,85 @@
-# Football DSS Backend
+# Football DSS
 
-Express + Postgres backend for a football DSS.
+Live app: https://football-dss.vercel.app/
 
-Original DSS: [dw-football-dss](https://github.com/Sheva2903/dw-football-dss) â€” legacy domain/logic reference.
+Express + PostgreSQL backend plus React frontend for a football recruitment decision support system.
 
-## Requirements
+Legacy/reference project: [dw-football-dss](https://github.com/Sheva2903/dw-football-dss)
 
-- Node.js 22+
+## Tech stack
+
+- Node.js 22
+- Express.js 5
+- PostgreSQL 16
+- Sequelize CLI migrations
+- Raw SQL for mart and analytical queries
+- Zod validation
+- Swagger / OpenAPI
 - Docker Compose
-- Postgres 16
+
+## What it does
+
+- Ingests raw football CSV datasets
+- Loads normalized warehouse tables in PostgreSQL
+- Builds analytical mart tables for scouting and ranking
+- Exposes read-focused APIs for players, rankings, shortlists, score explanation, and similar alternatives
+
+## Project flow
+
+```text
+CSV files -> warehouse schema -> mart schema -> Express API
+```
+
+### 1. Source data
+
+Put source CSVs in `data/source/`.
+
+### 2. Warehouse refresh
+
+Load dimension and fact tables into the `warehouse` schema.
+
+```bash
+npm run etl:warehouse
+```
+
+### 3. Mart refresh
+
+Build analytical tables such as player features and rankings in the `mart` schema.
+
+```bash
+npm run mart:refresh
+```
+
+### 4. API
+
+Start the backend API.
+
+```bash
+npm start
+```
+
+### 5. Full pipeline
+
+Run the full backend flow in one command.
+
+```bash
+npm run pipeline:refresh
+```
 
 ## Setup
 
-1. Copy env:
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+cp .env.example .env
+docker compose up -d
+npm install
+npm run db:migrate
+```
 
-2. Put the source CSVs in `data/source/`.
-   - These files are local inputs and are ignored by git.
+## API docs
 
-3. Start Postgres:
-   ```bash
-   docker compose up -d
-   ```
+Swagger UI:
 
-4. Install deps:
-   ```bash
-   npm install
-   ```
-
-## Run flow
-
-1. Run migrations:
-   ```bash
-   npm run db:migrate
-   ```
-
-2. Refresh warehouse data:
-   ```bash
-   npm run etl:warehouse
-   ```
-
-3. Build the mart:
-   ```bash
-   npm run mart:refresh
-   ```
-
-4. Start the API:
-   ```bash
-   npm start
-   ```
-
-5. Open Swagger:
-   - `http://localhost:3000/api/v1/docs`
-
-6. Run the verification suite:
-   ```bash
-   npm test
-   ```
+- `http://localhost:3000/api/v1/docs`
 
 ## Main endpoints
 
@@ -71,3 +92,32 @@ Original DSS: [dw-football-dss](https://github.com/Sheva2903/dw-football-dss) â€
 - `GET /api/v1/shortlists`
 - `GET /api/v1/players/:id/score-explanation`
 - `GET /api/v1/players/:id/similar-alternatives`
+
+## Verification
+
+```bash
+npm test
+```
+
+## Live deployment
+
+### Frontend
+- App: https://football-dss.vercel.app/
+
+### Backend
+- API base: https://football-dss.onrender.com/api/v1
+- Swagger docs: https://football-dss.onrender.com/api/v1/docs
+
+### Stack
+- Frontend: Vercel
+- Backend API: Render
+- Database: Supabase Postgres
+
+## Local vs deployed workflow
+
+### Deployed usage
+You can use the deployed app without running anything locally.
+
+### Local development
+Use local Docker Postgres for normal development, migrations, ETL iteration, and debugging.
+Use Supabase/Render/Vercel as the deployed environment, not as the default day-to-day dev loop.
